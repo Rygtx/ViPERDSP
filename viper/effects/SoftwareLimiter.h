@@ -9,6 +9,9 @@ public:
     float Process(float sample);
     void Reset();
 
+    // Live smoothed output gain, 1.0 = no reduction; GR dB = -20*log10(this).
+    float GetSmoothedGain() const { return smoothed_gain_; }
+
     void SetGate(float gate);
 
 private:

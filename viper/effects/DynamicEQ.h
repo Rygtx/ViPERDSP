@@ -24,6 +24,12 @@ public:
     void SetBandRelease(uint32_t band, float value);
     void SetBandFilterType(uint32_t band, int value);
 
+    // Live per-band applied gain in dB (static target + dynamic contribution).
+    float GetBandAppliedGainDb(uint32_t band) const
+    {
+        return state_[band < kMaxBands ? band : 0].last_applied_gain_db;
+    }
+
 private:
     struct BandParam {
         float frequency;

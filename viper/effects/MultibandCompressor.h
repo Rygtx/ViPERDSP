@@ -15,6 +15,12 @@ public:
     void Process(float *samples, uint32_t size);
     void Reset();
 
+    // Live per-band gain reduction (natural-log domain, as FETCompressor).
+    float GetBandGainReduction(uint32_t band) const
+    {
+        return compressors_[band < kMaxBands ? band : 0].GetGainReduction();
+    }
+
     void SetEnable(bool enable);
     void SetBandCount(uint32_t count);
     void SetCrossoverFrequency(uint32_t index, float frequency);

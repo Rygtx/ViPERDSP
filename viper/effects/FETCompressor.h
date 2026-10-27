@@ -9,6 +9,10 @@ public:
     void Process(float *samples, uint32_t size);
     void Reset();
 
+    // Live smoothed gain reduction in the engine's natural-log domain
+    // (multiply by 20/ln(10) for dB); >= 0, larger = more reduction.
+    float GetGainReduction() const { return attack_smooth_gr_; }
+
     void SetEnable(bool enable);
     void SetThreshold(float value);
     void SetRatio(float value);

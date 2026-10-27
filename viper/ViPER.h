@@ -94,6 +94,23 @@ public:
         return convolver_.GetKernelID();
     }
 
+    // Live metering for host UIs. FET/MBC reductions are in the engine's
+    // natural-log domain; DynEQ gain is already dB; limiter is linear gain.
+    [[nodiscard]] float GetFetGainReduction() const {
+        return fet_compressor_.GetGainReduction();
+    }
+    [[nodiscard]] float GetMultibandBandGainReduction(uint32_t band) const {
+        return multiband_compressor_.GetBandGainReduction(band);
+    }
+    [[nodiscard]] float GetDynamicEqBandAppliedGainDb(uint32_t band) const {
+        return dynamic_eq_.GetBandAppliedGainDb(band);
+    }
+    [[nodiscard]] float GetLimiterGain() const {
+        const float l = software_limiters_[0].GetSmoothedGain();
+        const float r = software_limiters_[1].GetSmoothedGain();
+        return l < r ? l : r; // the more reduced channel
+    }
+
     void SetSamplingRate(const uint32_t rate) { sampling_rate_ = rate; }
 
 private:
