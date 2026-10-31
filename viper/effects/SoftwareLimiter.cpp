@@ -38,6 +38,7 @@ float SoftwareLimiter::Process(float sample) {
     float gain = target_gain < released ? target_gain : released;
     if (gain > 1.0f) gain = 1.0f;
     gain_envelope_ = gain;
+    smoothed_gain_ = gain; // metering hook: GetSmoothedGain() 由这里喂值
 
     uint32_t node = kLookahead + wi;
     arr512_[node] = std::fabs(sample);
